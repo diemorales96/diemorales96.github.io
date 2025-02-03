@@ -5,13 +5,10 @@ function reflex_agent(location, state) {
 }
 
 function test(states) {
-    var log = document.getElementById("log");
-    log.innerHTML += `<br>State: [${states}]`;
-    
     var location = states[0];
     var state = location == "A" ? states[1] : states[2];
     var action_result = reflex_agent(location, state);
-    log.innerHTML += `<br>Location: ${location} | Action: ${action_result}`;
+    document.getElementById("log").innerHTML += `<br>Location: ${location} | Action: ${action_result}`;
     
     if (action_result == "CLEAN") {
         if (location == "A") states[1] = "CLEAN";
@@ -20,31 +17,12 @@ function test(states) {
     else if (action_result == "RIGHT") states[0] = "B";
     else if (action_result == "LEFT") states[0] = "A";
     
-    setTimeout(() => test(states), 2000); // Ejecuta recursivamente cada 2 segundos
-}
-
-function testAllStates() {
-    let possibleStates = ["A", "B"];
-    let dirtStates = ["CLEAN", "DIRTY"];
-    let log = document.getElementById("log");
-    log.innerHTML = "";
+    // Ensuciar aleatoriamente después de un ciclo
+    if (Math.random() < 0.5) states[1] = "DIRTY"; // 50% de probabilidad de ensuciar A
+    if (Math.random() < 0.5) states[2] = "DIRTY"; // 50% de probabilidad de ensuciar B
     
-    for (let loc of possibleStates) {
-        for (let aState of dirtStates) {
-            for (let bState of dirtStates) {
-                let states = [loc, aState, bState];
-                test(states);
-            }
-        }
-    }
+    setTimeout(function() { test(states); }, 2000);
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    let button = document.createElement("button");
-    button.textContent = "Run All States";
-    button.onclick = testAllStates;
-    document.body.appendChild(button);
-    let logDiv = document.createElement("div");
-    logDiv.id = "log";
-    document.body.appendChild(logDiv);
-});
+var states = ["A", "DIRTY", "DIRTY"];
+test(states);
