@@ -30,12 +30,6 @@ function test(states) {
     var action_result = reflex_agent(location, state);
     var scenarioNumber = getScenarioNumber(states);
     
-    // Imprimir cuando se visita un nodo diferente
-    /*if (location !== previousLocation) {
-        document.getElementById("log").innerHTML += `<br><b>Cuarto Visitado: ${location} | Escenario ${scenarioNumber}: ${getStateIdentifier(states)}</b> `;
-        previousLocation = location;
-    }*/
-    
     document.getElementById("log").innerHTML += `<br><b>Cuarto Visitado: ${location} | Accion: ${action_result} | Escenario ${scenarioNumber}: ${getStateIdentifier(states)}</b>`;
     
     if (action_result == "CLEAN") {
